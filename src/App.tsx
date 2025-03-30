@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { MinuteField } from '@/components/schedule/MinuteField';
 import { HourField } from '@/components/schedule/HourField';
 import { DayOfMonthField } from '@/components/schedule/DayOfMonthField';
+import { MonthField } from '@/components/schedule/MonthField';
 
 export const App = () => {
   const form = useForm<ScheduleFormData>({
@@ -33,8 +34,9 @@ export const App = () => {
             <MinuteField />
             <HourField />
           </div>
-          <div className="flex mt-12 mb-6">
+          <div className="flex mt-12 mb-6 gap-6">
             <DayOfMonthField />
+            <MonthField />
           </div>
           <Button type="submit">Submit</Button>
         </form>
