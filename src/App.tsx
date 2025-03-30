@@ -4,6 +4,7 @@ import { scheduleSchema, type ScheduleFormData } from './schemas/scheduleSchema'
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { MinuteField } from '@/components/schedule/MinuteField.tsx';
+import { HourField } from '@/components/schedule/HourField.tsx';
 
 export const App = () => {
   const form = useForm<ScheduleFormData>({
@@ -26,8 +27,11 @@ export const App = () => {
   return (
     <FormProvider {...form}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <MinuteField />
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <div className="flex gap-6 py-6 px-4">
+            <MinuteField />
+            <HourField />
+          </div>
           <Button type="submit">Submit</Button>
         </form>
       </Form>
