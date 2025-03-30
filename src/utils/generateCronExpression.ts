@@ -10,15 +10,19 @@ import type {
 type FieldData = MinuteFieldData | HourFieldData | DayOfMonthFieldData | MonthFieldData | DayOfWeekFieldData;
 
 const getCronPart = (field: FieldData): string => {
+  if (!field || typeof field !== 'object' || !('type' in field)) return '*';
+
   switch (field.type) {
     case 'every':
       return '*';
     case 'between':
-      return `${field.from}-${field.to}`;
+      return field.from !== undefined && field.to !== undefined ? `${field.from}-${field.to}` : '*';
     case 'step':
-      return `*/${field.stepValue}`;
+      return field.stepValue !== undefined ? `*/${field.stepValue}` : '*';
     case 'specific':
-      return field.values.sort((a, b) => a - b).join(',');
+      return Array.isArray(field.values) && field.values.length > 0
+        ? field.values.sort((a, b) => a - b).join(',')
+        : '*';
     default:
       return '*';
   }

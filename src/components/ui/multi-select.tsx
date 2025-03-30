@@ -57,7 +57,7 @@ export const MultiSelect = React.forwardRef<HTMLButtonElement, MultiSelectProps>
       onValueChange,
       variant,
       defaultValue = [],
-      placeholder = 'Select options',
+      placeholder = '',
       animation = 0,
       maxCount = 3,
       modalPopover = false,

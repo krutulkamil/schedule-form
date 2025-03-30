@@ -13,7 +13,7 @@ export const App = () => {
     defaultValues: {
       name: 'Harmonogram_1',
       command: 'app:remove:cron:report',
-      schedule: '*****'
+      schedule: '* * * * *',
     },
     resolver: zodResolver(scheduleDetailsSchema),
     mode: 'onBlur',
@@ -22,6 +22,10 @@ export const App = () => {
   function onSubmit(values: ScheduleDetailsFormData) {
     console.log(values);
   }
+
+  const handleSetSchedule = (value: string) => {
+    scheduleDetailsForm.setValue('schedule', value);
+  };
 
   return (
     <main className="wrapper">
@@ -84,7 +88,7 @@ export const App = () => {
                   <FormItem className="w-full">
                     <FormLabel>Harmonogram</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input {...field} readOnly disabled />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -94,7 +98,7 @@ export const App = () => {
           </Form>
         </CardContent>
         <CardFooter>
-          <ScheduleDialog />
+          <ScheduleDialog onSetSchedule={handleSetSchedule} />
         </CardFooter>
       </Card>
     </main>

@@ -1,4 +1,4 @@
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch, Controller } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { MultiSelect } from '@/components/ui/multi-select';
@@ -30,7 +30,7 @@ export const DayOfWeekField = () => {
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                field.onChange({ type: value as DayOfWeekFieldData['type'] });
+                field.onChange({ ...field.value, type: value as DayOfWeekFieldData['type'] });
               }}
               className="flex flex-col mt-2"
             >
@@ -55,19 +55,25 @@ export const DayOfWeekField = () => {
                   </FormLabel>
                 </div>
 
-                <MultiSelect
-                  disabled={currentType !== 'specific'}
-                  options={DAY_OF_WEEK_OPTIONS}
-                  defaultValue={field.value.type === 'specific' ? (field.value.values ?? []).map(String) : []}
-                  onValueChange={(values) => {
-                    setValue(
-                      'dayOfWeek.values',
-                      values.map((v) => Number(v)),
-                      { shouldValidate: true },
-                    );
-                  }}
-                  className="w-full"
-                  placeholder=""
+                <Controller
+                  name="dayOfWeek.values"
+                  control={control}
+                  render={({ field }) => (
+                    <MultiSelect
+                      disabled={currentType !== 'specific'}
+                      options={DAY_OF_WEEK_OPTIONS}
+                      value={field.value?.map(String) ?? []}
+                      defaultValue={field.value?.map(String) ?? []}
+                      onValueChange={(values) => {
+                        setValue(
+                          'dayOfWeek.values',
+                          values.map((v) => Number(v)),
+                          { shouldValidate: true },
+                        );
+                      }}
+                      className="w-full"
+                    />
+                  )}
                 />
               </FormItem>
             </RadioGroup>

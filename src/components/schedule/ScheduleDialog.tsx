@@ -1,4 +1,4 @@
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm, useWatch, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
@@ -17,8 +17,13 @@ import { HourField } from '@/components/schedule/HourField';
 import { DayOfMonthField } from '@/components/schedule/DayOfMonthField';
 import { MonthField } from '@/components/schedule/MonthField';
 import { DayOfWeekField } from '@/components/schedule/DayOfWeekField';
+import { useCronBuilder } from '@/hooks/useCronBuilder.ts';
 
-export const ScheduleDialog = () => {
+type Props = {
+  onSetSchedule: (value: string) => void;
+};
+
+export const ScheduleDialog = ({ onSetSchedule }: Props) => {
   const scheduleForm = useForm<ScheduleFormData>({
     defaultValues: {
       minute: { type: 'every' },
@@ -32,8 +37,26 @@ export const ScheduleDialog = () => {
     reValidateMode: 'onChange',
   });
 
+  const isValid = scheduleForm.formState.isValid;
+
+  const { getCronValue } = useCronBuilder();
+
+  const watchedSchedule = useWatch({
+    control: scheduleForm.control,
+    name: ['minute', 'hour', 'dayOfMonth', 'month', 'dayOfWeek'],
+  });
+
+  const cronPreview = getCronValue({
+    minute: watchedSchedule[0],
+    hour: watchedSchedule[1],
+    dayOfMonth: watchedSchedule[2],
+    month: watchedSchedule[3],
+    dayOfWeek: watchedSchedule[4],
+  });
+
   function onSubmit(values: ScheduleFormData) {
-    console.log(values);
+    const cron = getCronValue(values);
+    onSetSchedule(cron);
   }
 
   return (
@@ -44,6 +67,7 @@ export const ScheduleDialog = () => {
       <DialogContent className="sm:max-w-[1200px]" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Harmonogram</DialogTitle>
+          <h2>{cronPreview}</h2>
         </DialogHeader>
         <FormProvider {...scheduleForm}>
           <Form {...scheduleForm}>
@@ -61,9 +85,11 @@ export const ScheduleDialog = () => {
                 <DialogClose asChild>
                   <Button variant="outline">Zamknij</Button>
                 </DialogClose>
-                <Button variant="save" type="submit">
-                  Ustaw
-                </Button>
+                <DialogClose asChild disabled={!isValid}>
+                  <Button variant="save" type="submit">
+                    Ustaw
+                  </Button>
+                </DialogClose>
               </DialogFooter>
             </form>
           </Form>

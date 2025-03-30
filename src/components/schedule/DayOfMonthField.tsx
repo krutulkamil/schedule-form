@@ -1,4 +1,4 @@
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext, useWatch, Controller } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { MultiSelect } from '@/components/ui/multi-select';
@@ -25,7 +25,7 @@ export const DayOfMonthField = () => {
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                field.onChange({ type: value as DayOfMonthFieldData['type'] });
+                field.onChange({ ...field.value, type: value as DayOfMonthFieldData['type'] });
               }}
               className="flex flex-col mt-2"
             >
@@ -50,19 +50,25 @@ export const DayOfMonthField = () => {
                   </FormLabel>
                 </div>
 
-                <MultiSelect
-                  disabled={currentType !== 'specific'}
-                  options={DAYS_OF_MONTH_OPTIONS}
-                  defaultValue={field.value.type === 'specific' ? (field.value.values ?? []).map(String) : []}
-                  onValueChange={(values) => {
-                    setValue(
-                      'dayOfMonth.values',
-                      values.map((v) => Number(v)),
-                      { shouldValidate: true },
-                    );
-                  }}
-                  className="w-full"
-                  placeholder=""
+                <Controller
+                  name="dayOfMonth.values"
+                  control={control}
+                  render={({ field }) => (
+                    <MultiSelect
+                      disabled={currentType !== 'specific'}
+                      options={DAYS_OF_MONTH_OPTIONS}
+                      value={field.value?.map(String) ?? []}
+                      defaultValue={field.value?.map(String) ?? []}
+                      onValueChange={(values) => {
+                        setValue(
+                          'dayOfMonth.values',
+                          values.map((v) => Number(v)),
+                          { shouldValidate: true },
+                        );
+                      }}
+                      className="w-full"
+                    />
+                  )}
                 />
               </FormItem>
             </RadioGroup>
