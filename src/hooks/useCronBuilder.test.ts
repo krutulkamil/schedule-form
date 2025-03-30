@@ -3,10 +3,6 @@ import { describe, it, expect } from 'vitest';
 import { useCronBuilder } from '@/hooks/useCronBuilder';
 import type { ScheduleFormData } from '@/schemas/scheduleSchema';
 
-/**
- * @vitest-environment happy-dom
- */
-
 describe('useCronBuilder', () => {
   it('returns correct CRON for "every" values', () => {
     const { result } = renderHook(() => useCronBuilder());
