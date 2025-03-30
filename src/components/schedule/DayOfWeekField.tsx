@@ -32,7 +32,7 @@ export const DayOfWeekField = () => {
               onValueChange={(value) => {
                 field.onChange({ type: value as DayOfWeekFieldData['type'] });
               }}
-              className="flex flex-col space-y-2 mt-2"
+              className="flex flex-col mt-2"
             >
               {/* every */}
               <FormItem className="space-y-2">
@@ -40,7 +40,7 @@ export const DayOfWeekField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="every" />
                   </FormControl>
-                  <FormLabel className="font-normal">Każdy dzień tygodnia</FormLabel>
+                  <FormLabel className="font-normal text-xs">Każdy dzień tygodnia</FormLabel>
                 </div>
               </FormItem>
 
@@ -50,7 +50,9 @@ export const DayOfWeekField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="specific" />
                   </FormControl>
-                  <FormLabel className="font-normal">Określony dzień tygodnia (wybierz jeden lub więcej)</FormLabel>
+                  <FormLabel className="font-normal text-xs">
+                    Określony dzień tygodnia (wybierz jeden lub więcej)
+                  </FormLabel>
                 </div>
 
                 <MultiSelect

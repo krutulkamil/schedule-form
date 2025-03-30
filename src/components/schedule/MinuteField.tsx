@@ -31,7 +31,7 @@ export const MinuteField = () => {
               onValueChange={(value) => {
                 field.onChange({ type: value as MinuteFieldData['type'] });
               }}
-              className="flex flex-col space-y-2 mt-2"
+              className="flex flex-col mt-2"
             >
               {/* every */}
               <FormItem className="space-y-2">
@@ -39,7 +39,7 @@ export const MinuteField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="every" />
                   </FormControl>
-                  <FormLabel className="font-normal">Każda minuta</FormLabel>
+                  <FormLabel className="font-normal text-xs">Każda minuta</FormLabel>
                 </div>
               </FormItem>
 
@@ -49,7 +49,7 @@ export const MinuteField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="between" />
                   </FormControl>
-                  <FormLabel className="font-normal">Co minutę między</FormLabel>
+                  <FormLabel className="font-normal text-xs">Co minutę między</FormLabel>
                 </div>
 
                 <div className="flex items-center gap-x-4">
@@ -93,7 +93,7 @@ export const MinuteField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="step" />
                   </FormControl>
-                  <FormLabel className="font-normal">Co */X minut</FormLabel>
+                  <FormLabel className="font-normal text-xs">Co */X minut</FormLabel>
                 </div>
 
                 <Select
@@ -119,7 +119,7 @@ export const MinuteField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="specific" />
                   </FormControl>
-                  <FormLabel className="font-normal">Określona minuta (wybierz jedną lub więcej)</FormLabel>
+                  <FormLabel className="font-normal text-xs">Określona minuta (wybierz jedną lub więcej)</FormLabel>
                 </div>
 
                 <MultiSelect

@@ -27,7 +27,7 @@ export const DayOfMonthField = () => {
               onValueChange={(value) => {
                 field.onChange({ type: value as DayOfMonthFieldData['type'] });
               }}
-              className="flex flex-col space-y-2 mt-2"
+              className="flex flex-col mt-2"
             >
               {/* every */}
               <FormItem className="space-y-2">
@@ -35,7 +35,7 @@ export const DayOfMonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="every" />
                   </FormControl>
-                  <FormLabel className="font-normal">Każdy dzień miesiąca</FormLabel>
+                  <FormLabel className="font-normal text-xs">Każdy dzień miesiąca</FormLabel>
                 </div>
               </FormItem>
 
@@ -45,7 +45,9 @@ export const DayOfMonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="specific" />
                   </FormControl>
-                  <FormLabel className="font-normal">Określony dzień miesiąca (wybierz jeden lub więcej)</FormLabel>
+                  <FormLabel className="font-normal text-xs">
+                    Określony dzień miesiąca (wybierz jeden lub więcej)
+                  </FormLabel>
                 </div>
 
                 <MultiSelect

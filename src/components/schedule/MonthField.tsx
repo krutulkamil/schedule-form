@@ -31,7 +31,7 @@ export const MonthField = () => {
               onValueChange={(value) => {
                 field.onChange({ type: value as MonthFieldData['type'] });
               }}
-              className="flex flex-col space-y-2 mt-2"
+              className="flex flex-col mt-2"
             >
               {/* every */}
               <FormItem className="space-y-2">
@@ -39,7 +39,7 @@ export const MonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="every" />
                   </FormControl>
-                  <FormLabel className="font-normal">Każdy miesiąc roku</FormLabel>
+                  <FormLabel className="font-normal text-xs">Każdy miesiąc roku</FormLabel>
                 </div>
               </FormItem>
 
@@ -49,7 +49,9 @@ export const MonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="specific" />
                   </FormControl>
-                  <FormLabel className="font-normal">Określony miesiąc roku (wybierz jeden lub więcej)</FormLabel>
+                  <FormLabel className="font-normal text-xs">
+                    Określony miesiąc roku (wybierz jeden lub więcej)
+                  </FormLabel>
                 </div>
 
                 <MultiSelect
