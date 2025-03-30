@@ -1,31 +1,36 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import './App.css';
+import { useForm, FormProvider } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { scheduleSchema, type ScheduleFormData } from './schemas/scheduleSchema';
+import { Form } from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { MinuteField } from '@/components/schedule/MinuteField.tsx';
 
-function App() {
-  const [count, setCount] = useState(0);
+export const App = () => {
+  const form = useForm<ScheduleFormData>({
+    defaultValues: {
+      minute: { type: 'every' },
+      hour: { type: 'every' },
+      dayOfMonth: { type: 'every' },
+      month: { type: 'every' },
+      dayOfWeek: { type: 'every' },
+    },
+    resolver: zodResolver(scheduleSchema),
+    mode: 'onBlur',
+    reValidateMode: 'onChange',
+  });
+
+  function onSubmit(values: ScheduleFormData) {
+    console.log(values);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
+    <FormProvider {...form}>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <MinuteField />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Form>
+    </FormProvider>
   );
-}
-
-export default App;
+};
