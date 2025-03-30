@@ -69,7 +69,7 @@ describe('useCronBuilder', () => {
 
     const input = {
       minute: { type: 'step' },
-      hour: { type: 'between', from: 5 } as any,
+      hour: { type: 'between', from: 5 } as unknown,
       dayOfMonth: { type: 'specific', values: [] },
       month: { type: 'every' },
       dayOfWeek: { type: 'every' },

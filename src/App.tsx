@@ -1,14 +1,11 @@
-import { useForm } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Grip, GripVertical, X, Plus } from 'lucide-react';
-import { toast } from "sonner"
+import { Grip } from 'lucide-react';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Form, FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { ScheduleDialog } from '@/components/schedule/ScheduleDialog';
 import { scheduleDetailsSchema, type ScheduleDetailsFormData } from '@/schemas/scheduleDetailsSchema';
 import { Toaster } from '@/components/ui/sonner';
+import { ScheduleDetailsForm } from '@/components/schedule/ScheduleDetailsForm.tsx';
 
 export const App = () => {
   const scheduleDetailsForm = useForm<ScheduleDetailsFormData>({
@@ -20,11 +17,6 @@ export const App = () => {
     resolver: zodResolver(scheduleDetailsSchema),
     mode: 'onBlur',
   });
-
-  function onSubmit(values: ScheduleDetailsFormData) {
-    console.log(values);
-    toast(`Save to DB: ${JSON.stringify(values)}`);
-  }
 
   const handleSetSchedule = (value: string) => {
     scheduleDetailsForm.setValue('schedule', value);
@@ -39,67 +31,9 @@ export const App = () => {
         </div>
         <Card>
           <CardContent>
-            <Form {...scheduleDetailsForm}>
-              <form onSubmit={scheduleDetailsForm.handleSubmit(onSubmit)}>
-                <div className="flex justify-between pb-6 mb-6 border-b">
-                  <div className="flex items-center gap-2">
-                    <GripVertical size={16} />
-                    <span>Harmonogram</span>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button variant="outline" type="button">
-                      <X />
-                      Zamknij
-                    </Button>
-                    <Button variant="save" type="submit">
-                      <Plus />
-                      Zapisz
-                    </Button>
-                  </div>
-                </div>
-                <div className="flex gap-x-6 mb-6">
-                  <FormField
-                    control={scheduleDetailsForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Nazwa</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={scheduleDetailsForm.control}
-                    name="command"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel>Komenda</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <FormField
-                  control={scheduleDetailsForm.control}
-                  name="schedule"
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Harmonogram</FormLabel>
-                      <FormControl>
-                        <Input {...field} readOnly disabled />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </form>
-            </Form>
+            <FormProvider {...scheduleDetailsForm}>
+              <ScheduleDetailsForm />
+            </FormProvider>
           </CardContent>
           <CardFooter>
             <ScheduleDialog onSetSchedule={handleSetSchedule} />
