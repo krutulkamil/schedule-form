@@ -6,9 +6,9 @@ import { MultiSelect } from '@/components/ui/multi-select';
 import { HOURS } from '@/constants/scheduleOptions';
 import type { HourFieldData, ScheduleFormData } from '@/schemas/scheduleSchema';
 
-const HOUR_OPTIONS = HOURS.map((m) => ({
-  label: m.toString(),
-  value: m.toString(),
+const HOUR_OPTIONS = HOURS.map((h) => ({
+  label: h.toString(),
+  value: h.toString(),
 }));
 
 type HourType = HourFieldData['type'];

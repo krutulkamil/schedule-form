@@ -1,10 +1,11 @@
 import { useForm, FormProvider } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { scheduleSchema, type ScheduleFormData } from './schemas/scheduleSchema';
+import { scheduleSchema, type ScheduleFormData } from '@/schemas/scheduleSchema';
 import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { MinuteField } from '@/components/schedule/MinuteField.tsx';
-import { HourField } from '@/components/schedule/HourField.tsx';
+import { MinuteField } from '@/components/schedule/MinuteField';
+import { HourField } from '@/components/schedule/HourField';
+import { DayOfMonthField } from '@/components/schedule/DayOfMonthField';
 
 export const App = () => {
   const form = useForm<ScheduleFormData>({
@@ -27,10 +28,13 @@ export const App = () => {
   return (
     <FormProvider {...form}>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="flex gap-6 py-6 px-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="py-6 px-4">
+          <div className="flex gap-6">
             <MinuteField />
             <HourField />
+          </div>
+          <div className="flex mt-12 mb-6">
+            <DayOfMonthField />
           </div>
           <Button type="submit">Submit</Button>
         </form>
