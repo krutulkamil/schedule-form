@@ -67,16 +67,16 @@ export const ScheduleDialog = ({ onSetSchedule }: Props) => {
       <DialogContent className="sm:max-w-[1200px]" aria-describedby={undefined}>
         <DialogHeader>
           <DialogTitle>Harmonogram</DialogTitle>
-          <h2>{cronPreview}</h2>
+          <span className="text-lg font-bold">{cronPreview}</span>
         </DialogHeader>
         <FormProvider {...scheduleForm}>
           <Form {...scheduleForm}>
-            <form onSubmit={scheduleForm.handleSubmit(onSubmit)} className="pt-6 pb-2 px-4">
+            <form onSubmit={scheduleForm.handleSubmit(onSubmit)} className="pt-4 pb-2">
               <div className="flex gap-6">
                 <MinuteField />
                 <HourField />
               </div>
-              <div className="flex mt-12 mb-6 gap-6">
+              <div className="flex mt-10 mb-6 gap-6">
                 <DayOfMonthField />
                 <MonthField />
                 <DayOfWeekField />

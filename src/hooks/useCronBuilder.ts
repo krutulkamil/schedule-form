@@ -28,7 +28,7 @@ const getCronPart = (field: FieldData) => {
   }
 };
 
-export const generateCronExpression = (data: ScheduleFormData) => {
+const generateCronExpression = (data: ScheduleFormData) => {
   return [
     getCronPart(data.minute),
     getCronPart(data.hour),
@@ -37,7 +37,6 @@ export const generateCronExpression = (data: ScheduleFormData) => {
     getCronPart(data.dayOfWeek),
   ].join(' ');
 };
-
 
 export const useCronBuilder = () => {
   const getCronValue = (values: ScheduleFormData) => {
