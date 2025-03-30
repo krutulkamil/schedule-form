@@ -11,18 +11,12 @@ const HOUR_OPTIONS = HOURS.map((h) => ({
   value: h.toString(),
 }));
 
-type HourType = HourFieldData['type'];
-
 export const HourField = () => {
   const { control, setValue } = useFormContext<ScheduleFormData>();
   const currentType = useWatch({ control, name: 'hour.type' });
   const fromValue = useWatch({ control, name: 'hour.from' });
   const toOptions = HOURS.filter((m) => fromValue == null || m > fromValue);
   const isToDisabled = currentType !== 'between' || toOptions.length === 0;
-
-  const getInitialHourField = (type: HourType) => {
-    return { type } as const;
-  };
 
   return (
     <FormField
@@ -35,8 +29,7 @@ export const HourField = () => {
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                const updated = getInitialHourField(value as HourType);
-                field.onChange(updated);
+                field.onChange({ type: value as HourFieldData['type'] });
               }}
               className="flex flex-col space-y-2 mt-2"
             >

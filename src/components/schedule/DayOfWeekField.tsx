@@ -2,34 +2,35 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { MultiSelect } from '@/components/ui/multi-select';
-import { MONTHS } from '@/constants/scheduleOptions';
-import { capitalize, polishMonthFormatter } from '@/lib/utils';
-import type { MonthFieldData, ScheduleFormData } from '@/schemas/scheduleSchema';
+import { DAYS_OF_WEEK } from '@/constants/scheduleOptions';
+import { capitalize, polishWeekdayFormatter } from '@/lib/utils';
+import type { DayOfWeekFieldData, ScheduleFormData } from '@/schemas/scheduleSchema';
 
-const MONTH_OPTIONS = MONTHS.map((month) => {
-  const date = new Date(2000, month - 1, 1);
+const DAY_OF_WEEK_OPTIONS = DAYS_OF_WEEK.map((dayIndex) => {
+  const date = new Date(2023, 0, 1 + dayIndex);
+  const label = polishWeekdayFormatter.format(date);
   return {
-    label: capitalize(polishMonthFormatter.format(date)),
-    value: month.toString(),
+    label: capitalize(label),
+    value: dayIndex.toString(),
   };
 });
 
-export const MonthField = () => {
+export const DayOfWeekField = () => {
   const { control, setValue } = useFormContext<ScheduleFormData>();
-  const currentType = useWatch({ control, name: 'month.type' });
+  const currentType = useWatch({ control, name: 'dayOfWeek.type' });
 
   return (
     <FormField
       control={control}
-      name="month"
+      name="dayOfWeek"
       render={({ field }) => (
         <FormItem className="w-full">
-          <FormLabel>Miesiąc roku</FormLabel>
+          <FormLabel>Dzień tygodnia</FormLabel>
           <FormControl>
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                field.onChange({ type: value as MonthFieldData['type'] });
+                field.onChange({ type: value as DayOfWeekFieldData['type'] });
               }}
               className="flex flex-col space-y-2 mt-2"
             >
@@ -39,7 +40,7 @@ export const MonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="every" />
                   </FormControl>
-                  <FormLabel className="font-normal">Każdy miesiąc roku</FormLabel>
+                  <FormLabel className="font-normal">Każdy dzień tygodnia</FormLabel>
                 </div>
               </FormItem>
 
@@ -49,16 +50,16 @@ export const MonthField = () => {
                   <FormControl>
                     <RadioGroupItem className="ml-2" value="specific" />
                   </FormControl>
-                  <FormLabel className="font-normal">Określony miesiąc roku (wybierz jeden lub więcej)</FormLabel>
+                  <FormLabel className="font-normal">Określony dzień tygodnia (wybierz jeden lub więcej)</FormLabel>
                 </div>
 
                 <MultiSelect
                   disabled={currentType !== 'specific'}
-                  options={MONTH_OPTIONS}
+                  options={DAY_OF_WEEK_OPTIONS}
                   defaultValue={field.value.type === 'specific' ? (field.value.values ?? []).map(String) : []}
                   onValueChange={(values) => {
                     setValue(
-                      'month.values',
+                      'dayOfWeek.values',
                       values.map((v) => Number(v)),
                       { shouldValidate: true },
                     );

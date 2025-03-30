@@ -11,18 +11,12 @@ const MINUTE_OPTIONS = MINUTES.map((m) => ({
   value: m.toString(),
 }));
 
-type MinuteType = MinuteFieldData['type'];
-
 export const MinuteField = () => {
   const { control, setValue } = useFormContext<ScheduleFormData>();
   const currentType = useWatch({ control, name: 'minute.type' });
   const fromValue = useWatch({ control, name: 'minute.from' });
   const toOptions = MINUTES.filter((m) => fromValue == null || m > fromValue);
   const isToDisabled = currentType !== 'between' || toOptions.length === 0;
-
-  const getInitialMinuteField = (type: MinuteType) => {
-    return { type } as const;
-  };
 
   return (
     <FormField
@@ -35,8 +29,7 @@ export const MinuteField = () => {
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                const updated = getInitialMinuteField(value as MinuteType);
-                field.onChange(updated);
+                field.onChange({ type: value as MinuteFieldData['type'] });
               }}
               className="flex flex-col space-y-2 mt-2"
             >

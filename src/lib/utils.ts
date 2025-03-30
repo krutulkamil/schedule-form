@@ -9,4 +9,5 @@ export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-export const polishMonthFormatter = new Intl.DateTimeFormat('pl-PL', { month: "long" });
+export const polishMonthFormatter = new Intl.DateTimeFormat('pl-PL', { month: 'long' });
+export const polishWeekdayFormatter = new Intl.DateTimeFormat('pl-PL', { weekday: 'short' });

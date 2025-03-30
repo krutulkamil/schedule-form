@@ -7,6 +7,7 @@ import { MinuteField } from '@/components/schedule/MinuteField';
 import { HourField } from '@/components/schedule/HourField';
 import { DayOfMonthField } from '@/components/schedule/DayOfMonthField';
 import { MonthField } from '@/components/schedule/MonthField';
+import { DayOfWeekField } from '@/components/schedule/DayOfWeekField';
 
 export const App = () => {
   const form = useForm<ScheduleFormData>({
@@ -37,6 +38,7 @@ export const App = () => {
           <div className="flex mt-12 mb-6 gap-6">
             <DayOfMonthField />
             <MonthField />
+            <DayOfWeekField />
           </div>
           <Button type="submit">Submit</Button>
         </form>

@@ -10,15 +10,9 @@ const DAYS_OF_MONTH_OPTIONS = DAYS_OF_MONTH.map((d) => ({
   value: d.toString(),
 }));
 
-type DayOfMonthType = DayOfMonthFieldData['type'];
-
 export const DayOfMonthField = () => {
   const { control, setValue } = useFormContext<ScheduleFormData>();
   const currentType = useWatch({ control, name: 'dayOfMonth.type' });
-
-  const getInitialDayOfMonthField = (type: DayOfMonthType) => {
-    return { type } as const;
-  };
 
   return (
     <FormField
@@ -31,8 +25,7 @@ export const DayOfMonthField = () => {
             <RadioGroup
               value={field.value.type}
               onValueChange={(value) => {
-                const updated = getInitialDayOfMonthField(value as DayOfMonthType);
-                field.onChange(updated);
+                field.onChange({ type: value as DayOfMonthFieldData['type'] });
               }}
               className="flex flex-col space-y-2 mt-2"
             >
