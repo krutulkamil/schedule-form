@@ -1,40 +1,25 @@
-import { useForm, FormProvider } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Grip, GripVertical, X, Plus } from 'lucide-react';
-import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card';
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogClose,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
-import { scheduleSchema, type ScheduleFormData } from '@/schemas/scheduleSchema';
-import { Form } from '@/components/ui/form';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+import { Form, FormField, FormControl, FormItem, FormMessage, FormLabel } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
-import { MinuteField } from '@/components/schedule/MinuteField';
-import { HourField } from '@/components/schedule/HourField';
-import { DayOfMonthField } from '@/components/schedule/DayOfMonthField';
-import { MonthField } from '@/components/schedule/MonthField';
-import { DayOfWeekField } from '@/components/schedule/DayOfWeekField';
+import { Input } from '@/components/ui/input';
+import { ScheduleDialog } from '@/components/schedule/ScheduleDialog';
+import { scheduleDetailsSchema, type ScheduleDetailsFormData } from '@/schemas/scheduleDetailsSchema';
 
 export const App = () => {
-  const scheduleForm = useForm<ScheduleFormData>({
+  const scheduleDetailsForm = useForm<ScheduleDetailsFormData>({
     defaultValues: {
-      minute: { type: 'every' },
-      hour: { type: 'every' },
-      dayOfMonth: { type: 'every' },
-      month: { type: 'every' },
-      dayOfWeek: { type: 'every' },
+      name: 'Harmonogram_1',
+      command: 'app:remove:cron:report',
+      schedule: '*****'
     },
-    resolver: zodResolver(scheduleSchema),
+    resolver: zodResolver(scheduleDetailsSchema),
     mode: 'onBlur',
-    reValidateMode: 'onChange',
   });
 
-  function onSubmit(values: ScheduleFormData) {
+  function onSubmit(values: ScheduleDetailsFormData) {
     console.log(values);
   }
 
@@ -45,57 +30,71 @@ export const App = () => {
         <h1>Cron</h1>
       </div>
       <Card>
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <GripVertical size={16} />
-            <span>Harmonogram</span>
-          </div>
-          <div className="flex gap-2">
-            <Button variant="outline">
-              <X />
-              Zamknij
-            </Button>
-            <Button variant="save">
-              <Plus />
-              Zapisz
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>Content</CardContent>
+        <CardContent>
+          <Form {...scheduleDetailsForm}>
+            <form onSubmit={scheduleDetailsForm.handleSubmit(onSubmit)}>
+              <div className="flex justify-between pb-6 mb-6 border-b">
+                <div className="flex items-center gap-2">
+                  <GripVertical size={16} />
+                  <span>Harmonogram</span>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="outline" type="button">
+                    <X />
+                    Zamknij
+                  </Button>
+                  <Button variant="save" type="submit">
+                    <Plus />
+                    Zapisz
+                  </Button>
+                </div>
+              </div>
+              <div className="flex gap-x-6 mb-6">
+                <FormField
+                  control={scheduleDetailsForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Nazwa</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={scheduleDetailsForm.control}
+                  name="command"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel>Komenda</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <FormField
+                control={scheduleDetailsForm.control}
+                name="schedule"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Harmonogram</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </CardContent>
         <CardFooter>
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button variant="outline">Ustaw harmonogram</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[1200px]" aria-describedby={undefined}>
-              <DialogHeader>
-                <DialogTitle>Harmonogram</DialogTitle>
-              </DialogHeader>
-              <FormProvider {...scheduleForm}>
-                <Form {...scheduleForm}>
-                  <form onSubmit={scheduleForm.handleSubmit(onSubmit)} className="pt-6 pb-2 px-4">
-                    <div className="flex gap-6">
-                      <MinuteField />
-                      <HourField />
-                    </div>
-                    <div className="flex mt-12 mb-6 gap-6">
-                      <DayOfMonthField />
-                      <MonthField />
-                      <DayOfWeekField />
-                    </div>
-                    <DialogFooter>
-                      <DialogClose asChild>
-                        <Button variant="outline">Zamknij</Button>
-                      </DialogClose>
-                      <Button variant="save" type="submit">
-                        Ustaw
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </FormProvider>
-            </DialogContent>
-          </Dialog>
+          <ScheduleDialog />
         </CardFooter>
       </Card>
     </main>
